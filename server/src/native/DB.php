@@ -6,9 +6,9 @@ class NativeDb
     private $options;
     public $db;
 
-    public function __construct($host, $db, $user, $pass, $charset)
+    public function __construct($host, $port, $db, $user, $pass, $charset)
     {
-        $this->dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+        $this->dsn = "mysql:host=$host:$port;dbname=$db;charset=$charset";
         $this->options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -22,5 +22,8 @@ class NativeDb
        }
     }
 }
+
+$nativeDb = new NativeDb($_ENV["DB_HOST"], $_ENV["DB_PORT"], $_ENV["SERVER_DB"],
+                $_ENV["DB_USER"],$_ENV["DB_PASS"], $_ENV["DB_CHARSET"]);
 
 ?>

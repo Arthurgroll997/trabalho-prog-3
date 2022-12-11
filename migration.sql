@@ -1,0 +1,12 @@
+CREATE DATABASE trab;
+
+USE trab;
+
+CREATE TABLE livro(
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(256) NOT NULL,
+    genero VARCHAR(256) NOT NULL,
+    autor VARCHAR(256) NOT NULL,
+    lido TINYINT(1) DEFAULT 0,
+    data_conclusao TIMESTAMP DEFAULT NULL
+);

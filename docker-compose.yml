@@ -5,21 +5,30 @@ networks:
     driver: bridge
 
 services:
-  client:
-    build:
-      context: client
-      dockerfile: Dockerfile-client
+  #client:
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile-client
+  #  env_file: .env
+  #  ports:
+  #    - "80:${APP_PORT}"
+  #  networks:
+  #    - tp2
+  db:
+    image: mysql
     env_file: .env
     ports:
-      - "80:${APP_PORT}"
+      - "${DB_PORT}:3306"
     networks:
       - tp2
   server:
     build:
-      context: server
+      context: .
       dockerfile: Dockerfile-server
     env_file: .env
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      - db
     networks:
       - tp2

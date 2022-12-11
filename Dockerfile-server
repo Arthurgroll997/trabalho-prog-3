@@ -1,0 +1,12 @@
+FROM composer:latest
+
+WORKDIR /app
+
+COPY ./server .
+
+RUN composer install
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+CMD ["php", "-S", "0.0.0.0:9000", "-t", "src/"]
+

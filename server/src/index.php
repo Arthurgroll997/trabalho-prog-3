@@ -9,7 +9,7 @@ switch ($url_parts[count($url_parts) - 1])
     }
     case "lerLivro":
     {
-        
+        break;
     }
     default:
         echo json_encode(["status" => "error", "content" => "Página inválida"]);

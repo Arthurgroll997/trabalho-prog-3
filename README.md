@@ -6,6 +6,10 @@ Trabalho 2 da disciplina de Programação III do terceiro trimestre do curso de 
 - Docker
 - Docker-Compose
 
+## Instruções para testar
+- Abrir o terminal na pasta "server"
+- Digitar: composer run test
+
 ## Instruções para rodar
 - Abrir o terminal nesta pasta
 - Digitar: docker-compose up --build

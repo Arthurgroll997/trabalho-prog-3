@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+
 require_once "./entity/Biblioteca.php";
 require_once "./entity/Livro.php";
 require_once "./adapter/db_adapter.php";

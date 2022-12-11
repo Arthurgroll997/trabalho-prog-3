@@ -9,7 +9,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <h1>Biblioteca</h1>
+
+        <div>
+            <button v-on:click="lerLivro()">Ler livro atual</button>
+            <br />
+            <button v-on:click="addLivro()">Adicionar livro</button>
+            <input v-model="titulo" type="text" placeholder="Título" />
+            <input v-model="genero" type="text" placeholder="Gênero" />
+            <input v-model="autor" type="text" placeholder="Autor" />
+        </div>
+
+        <div>
+            <div>
+                <p>Livro atual: {{livroAtual != null ? livroAtual.titulo + ', por ' + livroAtual.autor + ' - ' + livroAtual.genero : 'Nenhum' }}</p>
+                <p>Próximo livro: {{proxLivro != null ? proxLivro.titulo + ', por ' + proxLivro.autor + ' - ' + proxLivro.genero : 'Nenhum' }}</p>
+                <p>Último livro: {{ultimoLivroLido != null ? ultimoLivroLido.titulo + ', por ' + ultimoLivroLido.autor + ' - ' + ultimoLivroLido.genero : 'Nenhum' }}</p>
+            </div>
+            <div>
+                <p>Livros não lidos: {{numLivrosNaoLidos}}</p>
+                <p>Livros lidos: {{numLivrosLidos}}</p>
+            </div>
+            <div v-if="livrosNaoLidos != null">
+                <p>Livros não lidos</p>
+                <ul v-for="livro in livrosNaoLidos">
+                    <li>{{livro.titulo}}, por {{livro.autor}} - {{livro.genero}}</li>
+                </ul>
+            </div>
+            <div v-if="livrosLidos != null">
+                <p>Livros lidos</p>
+                <ul v-for="livro in livrosLidos">
+                    <li>{{livro.titulo}}, por {{livro.autor}} - {{livro.genero}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     
     <script src="https://unpkg.com/vue@3.2.45"></script>
     <script type="module" src="./script.js"></script>

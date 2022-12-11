@@ -1,12 +1,13 @@
 <?php
-require "./entity/Biblioteca.php";
-require "./entity/Livro.php";
-require "./adapter/db_adapter.php";
-require "./adapter/date_mgr.php";
-require "./native/DB.php";
-require "./mock/db_mock.php";
+require_once "./entity/Biblioteca.php";
+require_once "./entity/Livro.php";
+require_once "./adapter/db_adapter.php";
+require_once "./adapter/date_mgr.php";
+require_once "./native/DB.php";
+require_once "./mock/db_mock.php";
 
 $db = new DbAdapter($nativeDb->db);
+$db->setDateMgr(new DateManager());
 // $db = new DbMock();
 $bib = new Biblioteca($db, new DateManager());
 

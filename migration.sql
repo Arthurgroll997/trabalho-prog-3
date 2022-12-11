@@ -8,5 +8,5 @@ CREATE TABLE livro(
     genero VARCHAR(256) NOT NULL,
     autor VARCHAR(256) NOT NULL,
     lido TINYINT(1) DEFAULT 0,
-    data_conclusao TIMESTAMP DEFAULT NULL
+    data_conclusao BIGINT DEFAULT NULL
 );

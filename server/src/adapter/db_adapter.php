@@ -1,5 +1,5 @@
 <?php
-require "../entity/Livro.php";
+require_once "./entity/Livro.php";
 
 class DbAdapter
 {
@@ -20,6 +20,21 @@ class DbAdapter
     {
         return new Livro($livro["titulo"], $livro["genero"], $livro["autor"],
             $livro["lido"] == 1, $livro["data_conclusao"], $this, $this->dateMgr);
+    }
+
+    private function livroExiste($livro)
+    {
+        $stmt = $this->nativeDb->prepare("SELECT COUNT(*) FROM livro WHERE titulo=:t AND genero=:g AND autor=:a");
+
+        $stmt->execute(["t" => $livro->titulo, "g" => $livro->genero, "a" => $livro->autor]);
+
+        return $stmt->fetchColumn() > 0;
+    }
+
+    private function saveOrUpdateLivro($livro)
+    {
+        $stmt = $this->nativeDb->prepare("UPDATE livro SET lido=:l, data_conclusao=:dc WHERE titulo=:t AND genero=:g AND autor=:a");
+        $stmt->execute(["l" => $livro->isConcluido() ? 1 : 0, "dc" => $livro->getDataConclusao(), "t" => $livro->titulo, "g" => $livro->genero, "a" => $livro->autor]);
     }
 
     public function getLivrosNaoLidos()
@@ -71,7 +86,7 @@ class DbAdapter
 
         $livro = $stmt->fetch();
 
-        if (!isset($livro))
+        if (!$livro)
             return null;
 
         return new Livro($livro["titulo"], $livro["genero"], $livro["autor"],
@@ -85,7 +100,7 @@ class DbAdapter
 
         $livro = $stmt->fetch();
 
-        if (!isset($livro))
+        if (!$livro)
             return null;
 
         return $this->rowToLivro($livro);
@@ -98,7 +113,7 @@ class DbAdapter
 
         $livro = $stmt->fetch();
 
-        if (!isset($livro))
+        if (!$livro)
             return null;
 
         return $this->rowToLivro($livro);
@@ -122,27 +137,61 @@ class DbAdapter
 
     public function salvarLivrosNaoLidos($livrosNaoLidos)
     {
-        // TODO: IMPLEMENTAR
+        if ($livrosNaoLidos == null)
+            return;
+
+        foreach($livrosNaoLidos as $livroNaoLido)
+        {
+            if (!$this->livroExiste($livroNaoLido))
+            {
+                $stmt = $this->nativeDb->prepare("INSERT INTO livro(titulo, genero, autor, lido, data_conclusao) VALUES (:t, :g, :a, 0, NULL)");
+                $stmt->execute(["t" => $livroNaoLido->titulo, "g" => $livroNaoLido->genero, "a" => $livroNaoLido->autor]);
+            }
+        }
     }
 
     public function salvarLivrosLidos($livrosLidos)
     {
-        // TODO: IMPLEMENTAR
+        if ($livrosLidos == null)
+            return;
+
+        foreach($livrosLidos as $livroLido)
+        {
+            if ($this->livroExiste($livroLido))
+            {
+                $stmt = $this->nativeDb->prepare("UPDATE livro SET lido=1, data_conclusao=:dc WHERE titulo=:t AND genero=:g AND autor=:a");
+                $stmt->execute(["dc" => $livroLido->getDataConclusao(), "t" => $livroLido->titulo, "g" => $livroLido->genero, "a" => $livroLido->autor]);
+            }
+            else
+            {
+                $stmt = $this->nativeDb->prepare("INSERT INTO livro(titulo, genero, autor, lido, data_conclusao) VALUES (:t, :g, :a, 1, :dc)");
+                $stmt->execute(["t" => $livroLido->titulo, "g" => $livroLido->genero, "a" => $livroLido->autor, "dc" => $livroLido->getDataConclusao()]);
+            }
+        }
     }
 
     public function salvarLivroAtual($livro)
     {
-        // TODO: IMPLEMENTAR
+        if ($livro == null)
+            return;
+
+        $this->saveOrUpdateLivro($livro);
     }
 
     public function salvarUltimoLivroLido($livro)
     {
-        // TODO: IMPLEMENTAR
+        if ($livro == null)
+            return;
+
+        $this->saveOrUpdateLivro($livro);
     }
 
     public function salvarProxLivro($livro)
     {
-        // TODO: IMPLEMENTAR
+        if ($livro == null)
+            return;
+
+        $this->saveOrUpdateLivro($livro);
     }
 
     public function salvarNumLivrosNaoLidos($numLivrosNaoLidos)

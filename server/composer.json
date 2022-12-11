@@ -1,0 +1,23 @@
+{
+    "name": "arthu/trabalho-prog-3",
+    "description": "Trabalho 2 do terceiro trimestre da disciplina de Programação III do IFRS Campus Canoas",
+    "type": "project",
+    "require": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Arthu\\TrabalhoProg3\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "authors": [
+        {
+            "name": "Arthrugroll123",
+            "email": "apvgroll@gmail.com"
+        }
+    ]
+}

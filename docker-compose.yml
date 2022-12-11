@@ -1,0 +1,25 @@
+version: "3.9"
+
+networks:
+  tp2:
+    driver: bridge
+
+services:
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile-client
+    env_file: .env
+    ports:
+      - "80:${APP_PORT}"
+    networks:
+      - tp2
+  server:
+    build:
+      context: server
+      dockerfile: Dockerfile-server
+    env_file: .env
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    networks:
+      - tp2

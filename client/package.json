@@ -1,0 +1,19 @@
+{
+  "name": "trabalho-prog-2-client",
+  "version": "1.0.0",
+  "description": "Cliente do trabalho de programação 2 do 3º trimestre do curso de DS do IFRS Campus Canoas",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "dev": "vite build && node server.js",
+    "dist": "vite build"
+  },
+  "author": "Arthur Von Groll",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "vite": "^4.0.0",
+    "vitest": "^0.25.6"
+  }
+}

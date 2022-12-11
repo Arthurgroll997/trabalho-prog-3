@@ -74,6 +74,8 @@ final class BibliotecaTest extends TestCase
 
         $this->biblioteca->concluirLivroAtual();
 
+        $this->assertEquals(true, $livros[0]->isConcluido());
+        $this->assertEquals(1337, $livros[0]->getDataConclusao());
         $this->assertEquals($livros[1], $this->biblioteca->getLivroAtual());
         $this->assertEquals($livros[0], $this->biblioteca->getUltimoLivroLido());
         $this->assertEquals($livros[2], $this->biblioteca->getProximoLivroParaLer());
@@ -83,5 +85,30 @@ final class BibliotecaTest extends TestCase
         $this->assertEquals([$livros[0]], $this->biblioteca->getLivrosLidos());
     }
 
+    public function testeSalvarBiblioteca(): void
+    {
+        $livros = [
+            new Livro("Título 1", "Gênero", "Autor", false, null, $this->db, $this->dateMgr),
+            new Livro("Título 2", "Gênero", "Autor", false, null, $this->db, $this->dateMgr),
+            new Livro("Título 3", "Gênero", "Autor", false, null, $this->db, $this->dateMgr),
+        ];
 
+        $this->biblioteca->addLivros($livros);
+
+        $this->biblioteca->concluirLivroAtual();
+
+        $this->biblioteca->salvar();
+
+        $biblioteca2 = new Biblioteca($this->db, $this->dateMgr);
+
+        $this->assertEquals(true, $biblioteca2->getLivrosLidos()[0]->isConcluido());
+        $this->assertEquals(1337, $biblioteca2->getLivrosLidos()[0]->getDataConclusao());
+        $this->assertEquals($livros[1], $biblioteca2->getLivroAtual());
+        $this->assertEquals($livros[0], $biblioteca2->getUltimoLivroLido());
+        $this->assertEquals($livros[2], $biblioteca2->getProximoLivroParaLer());
+        $this->assertEquals(1, $biblioteca2->getNumLivrosLidos());
+        $this->assertEquals(2, $biblioteca2->getNumLivrosNaoLidos());
+        $this->assertEquals([$livros[1], $livros[2]], $biblioteca2->getLivrosNaoLidos());
+        $this->assertEquals([$livros[0]], $biblioteca2->getLivrosLidos());
+    }
 }

@@ -27,7 +27,7 @@ class DbMock
 
     public function getLivrosLidos()
     {
-        return $this->livrosNaoLidos;
+        return $this->livrosLidos;
     }
 
     public function getLivroAtual()
@@ -53,6 +53,41 @@ class DbMock
     public function getNumLivrosLidos()
     {
         return $this->numLivrosLidos;
+    }
+
+    public function salvarLivrosNaoLidos($livrosNaoLidos)
+    {
+        $this->livrosNaoLidos = $livrosNaoLidos;
+    }
+
+    public function salvarLivrosLidos($livrosLidos)
+    {
+        $this->livrosLidos = $livrosLidos;
+    }
+
+    public function salvarLivroAtual($livro)
+    {
+        $this->livroAtual = $livro;
+    }
+
+    public function salvarUltimoLivroLido($livro)
+    {
+        $this->ultimoLivroLido = $livro;
+    }
+
+    public function salvarProxLivro($livro)
+    {
+        $this->proxLivroParaLer = $livro;
+    }
+
+    public function salvarNumLivrosNaoLidos($numLivrosNaoLidos)
+    {
+        $this->numLivrosNaoLidos = $numLivrosNaoLidos;
+    }
+
+    public function salvarNumLivrosLidos($numLivrosLidos)
+    {
+        $this->numLivrosLidos = $numLivrosLidos;
     }
 }
 ?>

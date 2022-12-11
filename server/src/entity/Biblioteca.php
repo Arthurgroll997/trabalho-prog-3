@@ -112,5 +112,16 @@ class Biblioteca
         $this->livroAtual = count($this->livrosNaoLidos) > 0 ? $this->livrosNaoLidos[0] : null;
         $this->proxLivroParaLer = count($this->livrosNaoLidos) > 1 ? $this->livrosNaoLidos[1] : null;
     }
+
+    public function salvar()
+    {
+        $this->db->salvarLivrosLidos($this->livrosLidos);
+        $this->db->salvarLivrosNaoLidos($this->livrosNaoLidos);
+        $this->db->salvarLivroAtual($this->livroAtual);
+        $this->db->salvarUltimoLivroLido($this->ultimoLivroLido);
+        $this->db->salvarProxLivro($this->proxLivroParaLer);
+        $this->db->salvarNumLivrosNaoLidos($this->numLivrosNaoLidos);
+        $this->db->salvarNumLivrosLidos($this->numLivrosLidos);
+    }
 }
 ?>
